@@ -94,6 +94,32 @@ def lunch_count(garden):
     nrows = len(garden)
     ncols = len(garden[0])
 
+
+    # create dir dictionary
+    # 'W' : garden[row,col-1]
+    # 'N' : garden[row -1, col]
+    # 'E' : garden[row, col+1]
+    # 'S' : garden[row + 1, col]
+
+    # move is assigned a list of keys ['W','N','E','S']
+
+    # carrots = 0
+
+    # Get center cell of garden
+    # lev moved to center cell
+    row = nrows//2
+    col = ncols//2
+
+    lev = garden[row, col-1]
+
+    # if row >= 0 and row<= nrows and col >=0 and col <= ncol
+        # check W cell and assign max
+        # check N cell, if num is larger than max assign max to num
+        # check E cell, if num is larger thant max assign max to num
+        # check S cell, if num is larger than max assign max to num
+
+    
+
 if __name__ == '__main__':
     import doctest
 

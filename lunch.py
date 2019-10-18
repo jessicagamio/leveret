@@ -95,13 +95,8 @@ def lunch_count(garden):
     ncols = len(garden[0])
 
 
-    # create dir dictionary
-    # 'W' : garden[row,col-1]
-    # 'N' : garden[row -1, col]
-    # 'E' : garden[row, col+1]
-    # 'S' : garden[row + 1, col]
-
-    # move is assigned a list of keys ['W','N','E','S']
+    # at_rest set to False by default
+    at_Rest = False
 
     # carrots = 0
 
@@ -110,46 +105,60 @@ def lunch_count(garden):
     row = nrows//2
     col = ncols//2
 
+    # lev starts at center
     lev = garden[row, col-1]
 
-    # if row >= 0 and row<= nrows and col >=0 and col <= ncol
-    # check W cell and assign max
-    # check N cell, if num is larger than max assign max to num
-    # check E cell, if num is larger thant max assign max to num
-    # check S cell, if num is larger than max assign max to num
+    while not at_Rest:
 
- 
-    # Check west
-    if col-1 >= 0 and garden[row, col-1] != 0:
-        west_cell = garden[row, col-1]
-        if max >= west_cell:
-            max = west_cell
-    # Check North   
-    if row -1 >= 0 and garden[row-1, col] != 0:
-        north_cell = garden[row-1, col]
-        if max >= north_cell:
-            max = north_cell
 
-    # check east
-    if row+1 <= nrows and garden[row + 1, col] != 0:
-        east_cell =garden[row+1, col]
-        if max >= east_cell:
-            max = east_cell
+        # if row >= 0 and row<= nrows and col >=0 and col <= ncol
+        # check W cell and assign max
+        # check N cell, if num is larger than max assign max to num
+        # check E cell, if num is larger thant max assign max to num
+        # check S cell, if num is larger than max assign max to num
 
-    # check south
-    if col+1 <= ncols and garden[row, col +1] != 0:
-        south_cell = garden[row, col+1]
-        if max >= south_cell:
-            max = south_cell
-    
-    #if max did not move return carrot
-    if max == lev:
-        return carrot
+        # Check west
+        if col-1 >= 0 and garden[row, col-1] != 0:
+            west_cell = garden[row, col-1]
+            if max >= west_cell:
+                row = row
+                col = col -1
+                max = west_cell
 
-    else:
-        # move lev into max location
-        lev = max
-        carrot += max
+        # Check North   
+        if row -1 >= 0 and garden[row-1, col] > west_cell :
+            north_cell = garden[row-1, col]
+            if max >= north_cell:
+                row = row-1
+                col = col
+                max = north_cell
+
+        # check east
+        if row+1 <= nrows and garden[row + 1, col] > north_cell:
+            east_cell =garden[row+1, col]
+            if max >= east_cell:
+                row = row + 1
+                col = col
+                max = east_cell
+
+        # check south
+        if col+1 <= ncols and garden[row, col +1] > east_cell:
+            south_cell = garden[row, col+1]
+            if max >= south_cell:
+                row = row
+                col = col + 1
+                max = south_cell
+        
+        #if max did not move return carrot
+        if max == lev:
+            at_Rest= Trues
+
+        else:
+            # move lev into max location
+            lev = max
+            carrots += max
+
+    return carrots
 
 
 

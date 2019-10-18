@@ -113,12 +113,45 @@ def lunch_count(garden):
     lev = garden[row, col-1]
 
     # if row >= 0 and row<= nrows and col >=0 and col <= ncol
-        # check W cell and assign max
-        # check N cell, if num is larger than max assign max to num
-        # check E cell, if num is larger thant max assign max to num
-        # check S cell, if num is larger than max assign max to num
+    # check W cell and assign max
+    # check N cell, if num is larger than max assign max to num
+    # check E cell, if num is larger thant max assign max to num
+    # check S cell, if num is larger than max assign max to num
 
+ 
+    # Check west
+    if col-1 >= 0 and garden[row, col-1] != 0:
+        west_cell = garden[row, col-1]
+        if max >= west_cell:
+            max = west_cell
+    # Check North   
+    if row -1 >= 0 and garden[row-1, col] != 0:
+        north_cell = garden[row-1, col]
+        if max >= north_cell:
+            max = north_cell
+
+    # check east
+    if row+1 <= nrows and garden[row + 1, col] != 0:
+        east_cell =garden[row+1, col]
+        if max >= east_cell:
+            max = east_cell
+
+    # check south
+    if col+1 <= ncols and garden[row, col +1] != 0:
+        south_cell = garden[row, col+1]
+        if max >= south_cell:
+            max = south_cell
     
+    #if max did not move return carrot
+    if max == lev:
+        return carrot
+
+    else:
+        # move lev into max location
+        lev = max
+        carrot += max
+
+
 
 if __name__ == '__main__':
     import doctest

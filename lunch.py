@@ -94,69 +94,90 @@ def lunch_count(garden):
     nrows = len(garden)
     ncols = len(garden[0])
 
+    # if more than one center cell choose the cell with the most carrots
+    if nrows%2==0:
+        row = (nrows//2)
+        col = (ncols//2)
+
+        if garden[row][col] > garden[row-1][col-1]:
+            center = (row,col)
+        else:
+            center = (row-1,col-1)
+
+    else:
+        row = nrows//2
+        col = ncols//2
+        center = (row,col)
+
 
     # at_rest set to False by default
     at_Rest = False
 
-    # carrots = 0
+    carrots = 0
 
-    # Get center cell of garden
-    # lev moved to center cell
-    row = nrows//2
-    col = ncols//2
+    # lev starts at center and number is changed to zero
 
-    # lev starts at center
-    lev = garden[row, col-1]
+    row,col = center
+    garden[row][col] = 0
 
     while not at_Rest:
-
 
         # if row >= 0 and row<= nrows and col >=0 and col <= ncol
         # check W cell and assign max
         # check N cell, if num is larger than max assign max to num
         # check E cell, if num is larger thant max assign max to num
         # check S cell, if num is larger than max assign max to num
+        west_cell = garden[row][col-1]
+        print('west ====>', west_cell)
+        north_cell = garden[row-1][col]
+        print('north ====>', north_cell)
+        east_cell =garden[row+1][col]
+        print('east ====>', east_cell)
+        south_cell = garden[row][col+1]
+        print('south ====>', south_cell)
 
         # Check west
-        if col-1 >= 0 and garden[row, col-1] != 0:
-            west_cell = garden[row, col-1]
-            if max >= west_cell:
+        if col-1 >= 0 and garden[row][col-1] != 0:
+            if garden[row][col] >= west_cell:
                 row = row
                 col = col -1
-                max = west_cell
+                new_cell = (row,col)
+                print('carrots in west cell =====>', garden[row][col])
 
         # Check North   
-        if row -1 >= 0 and garden[row-1, col] > west_cell :
-            north_cell = garden[row-1, col]
-            if max >= north_cell:
+        if row -1 >= 0 and garden[row-1][col] > west_cell :
+            if garden[row][col] >= north_cell:
                 row = row-1
                 col = col
-                max = north_cell
+                new_cell = (row,col)
+                print('carrots in west cell =====>', garden[row][col])
 
         # check east
-        if row+1 <= nrows and garden[row + 1, col] > north_cell:
-            east_cell =garden[row+1, col]
-            if max >= east_cell:
+        if row+1 <= nrows and garden[row + 1][col] > north_cell:
+            if garden[row][col] >= east_cell:
                 row = row + 1
                 col = col
-                max = east_cell
+                new_cell = (row,col)
+                print('carrots in west cell =====>', garden[row][col])
 
         # check south
-        if col+1 <= ncols and garden[row, col +1] > east_cell:
-            south_cell = garden[row, col+1]
-            if max >= south_cell:
+        if col+1 <= ncols and garden[row][col +1] > east_cell:
+            if garden[row][col] >= south_cell:
                 row = row
                 col = col + 1
-                max = south_cell
+                new_cell = (row,col)
+                print('carrots in west cell =====>', garden[row][col])
         
-        #if max did not move return carrot
-        if max == lev:
-            at_Rest= Trues
+        #if max did not move  from center
+        if (row,col) == center:
+            at_Rest= True
 
         else:
-            # move lev into max location
-            lev = max
-            carrots += max
+            # move lev into max location and set as new center
+            row,col= new_cell
+            center = new_cell
+            carrots += garden[row][col]
+            print('carrots======>',carrots)
 
     return carrots
 

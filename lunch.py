@@ -78,7 +78,6 @@ Consider our most complex case::
 
 """
 
-
 def lunch_count(garden):
     """Given a garden of nrows of ncols, return carrots eaten."""
 
@@ -95,20 +94,54 @@ def lunch_count(garden):
     ncols = len(garden[0])
 
     # if more than one center cell choose the cell with the most carrots
-    if nrows%2==0:
-        row = (nrows//2)
-        col = (ncols//2)
+    if nrows%2==0 and ncols%2!=0:
+        if garden[nrows//2][ncols//2] > garden[(nrows//2)-1][ncols//2]:
+            row=nrows//2
+            col=ncols//2
 
-        if garden[row][col] > garden[row-1][col-1]:
-            center = (row,col)
         else:
-            center = (row-1,col-1)
+            row=(nrows//2)-1
+            col=ncols//2
 
-    else:
-        row = nrows//2
-        col = ncols//2
-        center = (row,col)
+    elif nrows%2!=0 and ncols%2!=0:
+            row=nrows//2
+            col=ncols//2
 
+    elif nrows%2!=0 and ncols%2==0:
+        if garden[nrows//2][ncols//2] > garden[nrows//2][(ncols//2)-1]:
+            row=nrows//2
+            col=ncols//2
+
+        else:
+            row=nrows//2
+            col=(ncols//2)-1     
+
+    elif nrows%2 ==0 and ncols %2==0:
+        if garden[nrows//2][ncols//2] > garden [(nrows//2)-1][ncols//2]:
+            row1=nrows//2
+            col1=ncols//2
+
+        else:
+            row1 = (nrows//2)-1
+            col1 = ncols//2
+
+        if  garden[nrows//2][(ncols//2)-1] > garden[(nrows//2)-1][(ncols//2)-1]:
+            row2=nrows//2
+            col2=(ncols//2)-1
+        else:
+            row2=(nrows//2)-1
+            col2=(ncols//2)-1
+
+        if garden[row1][col1] > garden[row2][col2]:
+            row=row1
+            col = col1
+        else:
+            row=row2
+            col=col2
+
+    center=(row,col)
+
+    print('center=====>','row ',row,'col ', col)
 
     # at_rest set to False by default
     at_Rest = False
@@ -129,15 +162,20 @@ def lunch_count(garden):
         # check S cell, if num is larger than max assign max to num
         west_cell = garden[row][col-1]
         print('west ====>', west_cell)
+
         north_cell = garden[row-1][col]
         print('north ====>', north_cell)
+
         east_cell =garden[row+1][col]
         print('east ====>', east_cell)
+        
         south_cell = garden[row][col+1]
         print('south ====>', south_cell)
 
+        print('row===>', row, 'col====>', col)
         # Check west
-        if col-1 >= 0 and garden[row][col-1] != 0:
+        # if col-1 >= 0 and garden[row][col-1] != 0:
+        if garden[row][col-1] != 0:
             if garden[row][col] >= west_cell:
                 row = row
                 col = col -1
